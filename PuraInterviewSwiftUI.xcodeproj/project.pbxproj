@@ -15,7 +15,6 @@
 		4F9C95A62C61CA1E007E0399 /* Word.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9C95A52C61CA1E007E0399 /* Word.swift */; };
 		4F9C95A82C61CA2A007E0399 /* WordResponse.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9C95A72C61CA2A007E0399 /* WordResponse.swift */; };
 		4F9C95AA2C61CA36007E0399 /* Meta.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9C95A92C61CA36007E0399 /* Meta.swift */; };
-		4F9C95AD2C61CA64007E0399 /* WordController.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9C95AC2C61CA64007E0399 /* WordController.swift */; };
 		4F9C95B02C61CB15007E0399 /* API.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9C95AF2C61CB15007E0399 /* API.swift */; };
 		4F9C95B22C61CB26007E0399 /* URLBuilder.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9C95B12C61CB26007E0399 /* URLBuilder.swift */; };
 		4F9C95B42C61CB32007E0399 /* APIError.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9C95B32C61CB32007E0399 /* APIError.swift */; };
@@ -32,7 +31,6 @@
 		4F9C95A52C61CA1E007E0399 /* Word.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Word.swift; sourceTree = "<group>"; };
 		4F9C95A72C61CA2A007E0399 /* WordResponse.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordResponse.swift; sourceTree = "<group>"; };
 		4F9C95A92C61CA36007E0399 /* Meta.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Meta.swift; sourceTree = "<group>"; };
-		4F9C95AC2C61CA64007E0399 /* WordController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WordController.swift; sourceTree = "<group>"; };
 		4F9C95AF2C61CB15007E0399 /* API.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = API.swift; sourceTree = "<group>"; };
 		4F9C95B12C61CB26007E0399 /* URLBuilder.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = URLBuilder.swift; sourceTree = "<group>"; };
 		4F9C95B32C61CB32007E0399 /* APIError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = APIError.swift; sourceTree = "<group>"; };
@@ -80,7 +78,6 @@
 				4F9C95962C61C9C4007E0399 /* PuraInterviewSwiftUIApp.swift */,
 				4F9C95982C61C9C4007E0399 /* DictionarySearch.swift */,
 				4F9C95AE2C61CB06007E0399 /* API */,
-				4F9C95AB2C61CA4E007E0399 /* Controllers */,
 				4F9C95A42C61CA0D007E0399 /* Model */,
 				4F54BF7A2C62536A0008901C /* Extensions */,
 				4F9C959A2C61C9C6007E0399 /* Assets.xcassets */,
@@ -105,14 +102,6 @@
 				4F9C95A92C61CA36007E0399 /* Meta.swift */,
 			);
 			path = Model;
-			sourceTree = "<group>";
-		};
-		4F9C95AB2C61CA4E007E0399 /* Controllers */ = {
-			isa = PBXGroup;
-			children = (
-				4F9C95AC2C61CA64007E0399 /* WordController.swift */,
-			);
-			path = Controllers;
 			sourceTree = "<group>";
 		};
 		4F9C95AE2C61CB06007E0399 /* API */ = {
@@ -203,7 +192,6 @@
 				4F9C95AA2C61CA36007E0399 /* Meta.swift in Sources */,
 				4F9C95A62C61CA1E007E0399 /* Word.swift in Sources */,
 				4F9C95B22C61CB26007E0399 /* URLBuilder.swift in Sources */,
-				4F9C95AD2C61CA64007E0399 /* WordController.swift in Sources */,
 				4F9C95B02C61CB15007E0399 /* API.swift in Sources */,
 				4F54BF792C62532B0008901C /* StringExtension.swift in Sources */,
 				4F9C95B42C61CB32007E0399 /* APIError.swift in Sources */,

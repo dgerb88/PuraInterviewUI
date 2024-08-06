@@ -11,10 +11,16 @@ import Foundation
 struct WordResponse: Codable {
     let meta: Meta
     let shortdef: [String]
-    let fl: String 
+    let partOfSpeech: String 
+    
+    enum CodingKeys: String, CodingKey {
+            case meta
+            case shortdef
+            case partOfSpeech = "fl"
+        }
     
     var word: Word {
-        return Word(text: meta.id, definitions: shortdef)
+        return Word(text: meta.id, definitions: shortdef, synonyms: meta.syns?.first, antonyms: meta.ants?.first)
     }
     
     static func parseData(_ data: Data) -> WordResponse? {

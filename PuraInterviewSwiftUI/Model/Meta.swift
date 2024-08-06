@@ -10,5 +10,7 @@ import Foundation
 
 struct Meta: Codable {
     let id: String
+    let syns: [[String]]?
+    let ants: [[String]]?
     let offensive: Bool
 }
