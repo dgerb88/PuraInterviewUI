@@ -1,10 +1,3 @@
-//
-//  ContentView.swift
-//  PuraInterviewSwiftUI
-//
-//  Created by Dax Gerber on 8/5/24.
-//
-
 import SwiftUI
 
 struct DictionarySearch: View {
@@ -27,25 +20,21 @@ struct DictionarySearch: View {
                         TextField("Search", text: $searchText)
                             .textFieldStyle(.roundedBorder)
                             .onSubmit {
-                                performSearchWithEasterEgg()
+                                withAnimation(.easeIn) {
+                                    performSearchWithEasterEgg()
+                                }
                             }
                         Button {
-                            performSearch()
+                            withAnimation(.easeIn) {
+                                performSearchWithEasterEgg()
+                            }
                         } label: {
                             Text("Search")
                         }
                         .buttonStyle(.borderedProminent)
                         .tint(isDict ? .blue : .teal)
-
-                        
                     }
                     if let wordResponse {
-                        
-                        //TODO: Insert phonetic way of saying it here
-                        if isOffensive {
-                            //TODO: Definitely do something better than this
-                            Text("This is offensive to me")
-                        }
                         VStack(alignment: .leading, spacing: 10) {
                             Text(wordResponse.partOfSpeech)
                                 .font(.title)
@@ -63,17 +52,30 @@ struct DictionarySearch: View {
                                 }
                             }
                         }.padding(.leading)
-                        
+                    }
+                    if isOffensive {
+                        Spacer()
+                        Image(.mouthCover)
+                            .resizable()
+                            .scaledToFit()
+                            .transition(.move(edge: .bottom).combined(with: .opacity))
+                        Text("This has been deemed offensive, shame on you")
                     }
                 }
                 .padding()
             }
         }
+        .animation(.easeInOut(duration: 1), value: isOffensive)
         .animation(.easeInOut, value: isDict)
+        .onChange(of: isDict) {
+            if !searchText.isEmpty {
+                performSearchWithEasterEgg()
+            }
+        }
     }
     
     func definitions(wordResponse: WordResponse) -> some View {
-        VStack(alignment: .leading,spacing: 10) {
+        VStack(alignment: .leading, spacing: 10) {
             Text(wordResponse.word.definitions.count == 1 ? "Definition:" : "Definitions:")
                 .font(.title3)
                 .padding(.bottom, 10)
@@ -107,7 +109,7 @@ struct DictionarySearch: View {
             }
         }
     }
-
+    
     func performSearch() {
         API.shared.fetchWord(query: searchText, isDict: isDict) { response in
             switch response {
@@ -130,8 +132,6 @@ struct DictionarySearch: View {
             performSearch()
         }
     }
-    
-    
 }
 
 #Preview {
