@@ -11,5 +11,7 @@ import Foundation
 struct Word: Codable {
     var text: String
     var definitions: [String]
+    var synonyms: [String]?
+    var antonyms: [String]?
     
 }

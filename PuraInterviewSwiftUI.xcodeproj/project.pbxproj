@@ -7,6 +7,7 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		4F54BF792C62532B0008901C /* StringExtension.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F54BF782C62532B0008901C /* StringExtension.swift */; };
 		4F9C95972C61C9C4007E0399 /* PuraInterviewSwiftUIApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9C95962C61C9C4007E0399 /* PuraInterviewSwiftUIApp.swift */; };
 		4F9C95992C61C9C4007E0399 /* DictionarySearch.swift in Sources */ = {isa = PBXBuildFile; fileRef = 4F9C95982C61C9C4007E0399 /* DictionarySearch.swift */; };
 		4F9C959B2C61C9C6007E0399 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 4F9C959A2C61C9C6007E0399 /* Assets.xcassets */; };
@@ -22,6 +23,7 @@
 /* End PBXBuildFile section */
 
 /* Begin PBXFileReference section */
+		4F54BF782C62532B0008901C /* StringExtension.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StringExtension.swift; sourceTree = "<group>"; };
 		4F9C95932C61C9C4007E0399 /* PuraInterviewSwiftUI.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PuraInterviewSwiftUI.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		4F9C95962C61C9C4007E0399 /* PuraInterviewSwiftUIApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PuraInterviewSwiftUIApp.swift; sourceTree = "<group>"; };
 		4F9C95982C61C9C4007E0399 /* DictionarySearch.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DictionarySearch.swift; sourceTree = "<group>"; };
@@ -48,6 +50,14 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		4F54BF7A2C62536A0008901C /* Extensions */ = {
+			isa = PBXGroup;
+			children = (
+				4F54BF782C62532B0008901C /* StringExtension.swift */,
+			);
+			path = Extensions;
+			sourceTree = "<group>";
+		};
 		4F9C958A2C61C9C4007E0399 = {
 			isa = PBXGroup;
 			children = (
@@ -72,6 +82,7 @@
 				4F9C95AE2C61CB06007E0399 /* API */,
 				4F9C95AB2C61CA4E007E0399 /* Controllers */,
 				4F9C95A42C61CA0D007E0399 /* Model */,
+				4F54BF7A2C62536A0008901C /* Extensions */,
 				4F9C959A2C61C9C6007E0399 /* Assets.xcassets */,
 				4F9C959C2C61C9C6007E0399 /* Preview Content */,
 			);
@@ -194,6 +205,7 @@
 				4F9C95B22C61CB26007E0399 /* URLBuilder.swift in Sources */,
 				4F9C95AD2C61CA64007E0399 /* WordController.swift in Sources */,
 				4F9C95B02C61CB15007E0399 /* API.swift in Sources */,
+				4F54BF792C62532B0008901C /* StringExtension.swift in Sources */,
 				4F9C95B42C61CB32007E0399 /* APIError.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

@@ -11,9 +11,10 @@ import Foundation
 struct WordResponse: Codable {
     let meta: Meta
     let shortdef: [String]
+    let fl: String 
     
     var word: Word {
-        return Word(text: meta.stems.first!, definitions: shortdef)
+        return Word(text: meta.id, definitions: shortdef)
     }
     
     static func parseData(_ data: Data) -> WordResponse? {
@@ -26,3 +27,5 @@ struct WordResponse: Codable {
         return nil
     }
 }
+
+

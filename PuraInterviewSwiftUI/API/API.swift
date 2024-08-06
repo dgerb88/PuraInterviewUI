@@ -25,7 +25,7 @@ class API {
         }
         
         
-        let requestURL = URLBuilder(baseURL: API.baseUrl, word: query.lowercased()).requestURL
+        let requestURL = URLBuilder(baseURL: API.baseUrl, word: query.lowercased()).requestURLDict
         
         guard let url = URL(string: requestURL) else {
             completion(.failure(.badURL))

@@ -15,9 +15,9 @@ struct DictionarySearch: View {
     
     var body: some View {
         ScrollView {
-            VStack(alignment: .leading) {
+            VStack(alignment: .leading, spacing: 10) {
                 HStack {
-                    TextField("Your word here", text: $searchText)
+                    TextField("Search dictionary", text: $searchText)
                         .textFieldStyle(.roundedBorder)
                     Button {
                         //TODO: need to shorten this
@@ -46,9 +46,14 @@ struct DictionarySearch: View {
                         //TODO: Definitely do something better than this
                         Text("This is offensive to me")
                     }
+                    Text(wordResponse.fl)
+                        .font(.title)
+                        .fontWeight(.semibold)
+                        .padding(.vertical)
                     Text("Definitions:")
+                        .font(.title3)
                     ForEach(Array(wordResponse.word.definitions.enumerated()), id: \.1.self) { index, definition in
-                        Text("\(index + 1). ") + Text(definition)
+                        Text("\(index + 1). ") + Text(definition.capitalizingFirstLetter())
                     }
                 }
             }
