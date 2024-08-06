@@ -43,6 +43,7 @@ struct DictionarySearch: View {
                     
                     //TODO: Insert phonetic way of saying it here
                     if isOffensive {
+                        //TODO: Definitely do something better than this
                         Text("This is offensive to me")
                     }
                     Text("Definitions:")
