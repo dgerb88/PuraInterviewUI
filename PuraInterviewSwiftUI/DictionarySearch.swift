@@ -13,20 +13,19 @@ struct DictionarySearch: View {
     
     var body: some View {
         VStack {
-            Picker("", selection: $isDict) {
-                Text("Dictionary")
-                    .tag(true)
-                Text("Thesaurus")
-                    .tag(false)
-            }
-            .pickerStyle(.segmented)
-            .frame(height: 50)
-            .background(isDict ? Color.puraTeal : Color.puraOrange)
+            customPicker()
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
                     searchSection()
                     if let wordResponse {
                         wordResponseSection(wordResponse: wordResponse)
+                    } else {
+                        HStack {
+                            Spacer()
+                            EmptyView(color: isDict ? Color.puraTeal : Color.puraOrange)
+                            Spacer()
+                        }
+                        .padding(.top, 80)
                     }
                     if isOffensive {
                         offensiveSection()
@@ -145,9 +144,27 @@ struct DictionarySearch: View {
                 isOffensive = wordResponse!.meta.offensive
                 meme = (isOffensive ? memes.randomElement() : "")!
             } catch {
+                wordResponse = nil
                 apiError = error.localizedDescription
             }
         }
+    }
+    
+    func customPicker() -> some View {
+        HStack(spacing: 0) {
+            Button {
+                isDict = true
+            } label: {
+                TopPickerView(isActive: isDict, text: "Dictionary", color: Color.puraOrange)
+            }
+            Button {
+                isDict = false
+            } label: {
+                TopPickerView(isActive: !isDict, text: "Thesaurus", color: Color.puraTeal)
+            }
+        }
+        .background(isDict ? Color.puraTeal : Color.puraOrange)
+        .frame(height: 60)
     }
 }
 
