@@ -2,11 +2,14 @@ import SwiftUI
 
 struct DictionarySearch: View {
     
+    @StateObject var viewModel = ViewModel()
     @State var searchText = ""
     @State var wordResponse: WordResponse?
     @State var isOffensive = false
     @State var isDict = true
-    var meme = ["dosEquis", "pikachu", "mordor", "futurama", "simpsons", "yoda"].randomElement()
+    var memes = ["dosEquis", "mordor", "futurama", "simpsons", "yoda"]
+    @State var meme = ""
+    @State var apiError: String?
     
     var body: some View {
         VStack {
@@ -18,7 +21,7 @@ struct DictionarySearch: View {
             }
             .pickerStyle(.segmented)
             .frame(height: 50)
-            .background(isDict ? Color.blue : Color.teal)
+            .background(isDict ? Color.puraTeal : Color.puraOrange)
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
                     searchSection()
@@ -35,10 +38,11 @@ struct DictionarySearch: View {
         }
         .animation(.easeInOut(duration: 1), value: isOffensive)
         .animation(.easeInOut, value: isDict)
+        .animation(.easeInOut, value: wordResponse)
         .onChange(of: isDict) {
             if !searchText.isEmpty {
                 wordResponse = nil
-                performSearchWithEasterEgg()
+                performSearchAndRespondInView()
             }
         }
         .onChange(of: searchText) {
@@ -106,7 +110,7 @@ struct DictionarySearch: View {
         
     func offensiveSection() -> some View {
         Group {
-            Image(meme!)
+            Image(meme)
                 .resizable()
                 .scaledToFit()
                 .frame(maxHeight: 300)
@@ -121,42 +125,28 @@ struct DictionarySearch: View {
             TextField("Search", text: $searchText)
                 .textFieldStyle(.roundedBorder)
                 .onSubmit {
-                    withAnimation(.easeIn) {
-                        performSearchWithEasterEgg()
-                    }
+                    performSearchAndRespondInView()
                 }
             Button {
-                withAnimation(.easeIn) {
-                    performSearchWithEasterEgg()
-                }
+                performSearchAndRespondInView()
             } label: {
                 Text("Search")
             }
             .buttonStyle(.borderedProminent)
-            .tint(isDict ? .blue : .teal)
+            .tint(isDict ? Color.puraTeal : Color.puraOrange)
         }
     }
     
-    func performSearch() {
-        API.shared.fetchWord(query: searchText, isDict: isDict) { response in
-            switch response {
-            case .success(let data):
-                guard let response = WordResponse.parseData(data) else { return }
-                wordResponse = response
+    func performSearchAndRespondInView() {
+        Task {
+            do {
+                wordResponse = try await viewModel.performSearch(query: searchText, isDict: isDict)
                 guard wordResponse != nil else { return }
                 isOffensive = wordResponse!.meta.offensive
-            case .failure(let error):
-                wordResponse = nil
-                print("NETWORK ERROR: ", error.localizedDescription)
+                meme = (isOffensive ? memes.randomElement() : "")!
+            } catch {
+                apiError = error.localizedDescription
             }
-        }
-    }
-    
-    func performSearchWithEasterEgg() {
-        if searchText == "Dax" {
-            wordResponse = WordResponse(meta: Meta(id: "Dax", syns: [["Hireable", "Competent", "Extremely good at working"]], ants: [["Ugly", "Not worth time", "Loser"]], offensive: false), shortdef: ["An extremely desirable candidate for a position at Pura"], partOfSpeech: "noun")
-        } else {
-            performSearch()
         }
     }
 }

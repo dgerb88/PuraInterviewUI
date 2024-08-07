@@ -13,16 +13,14 @@ class API {
     
     static let dictUrl = "https://www.dictionaryapi.com/api/v3/references/collegiate/json/"
     static let thesUrl = "https://www.dictionaryapi.com/api/v3/references/thesaurus/json/"
-    
-    func fetchWord(query: String, isDict: Bool , _ completion: @escaping (Result<Data, APIError>) -> Void) {
+
+    func fetchWord(query: String, isDict: Bool) async throws -> Data {
         guard !query.isEmpty else {
-            completion(.failure(.emptyQuery))
-            return
+            throw APIError.emptyQuery
         }
         
         guard query.count > 2 else {
-            completion(.failure(.tooShort(query)))
-            return
+            throw APIError.tooShort(query)
         }
         
         var requestURL = URLBuilder(baseURL: API.dictUrl, word: query.lowercased()).requestURLDict
@@ -31,28 +29,18 @@ class API {
         }
         
         guard let url = URL(string: requestURL) else {
-            completion(.failure(.badURL))
-            return
+            throw APIError.badURL
         }
         
         let request = URLRequest(url: url)
         
-        print("Fetching from: ", request.url?.absoluteString ?? "")
-        session.dataTask(with: request) { data, response, error in
-            if let error = error {
-                completion(.failure(.custom(error.localizedDescription)))
-                return
-            }
-            
-            guard let data = data else {
-                completion(.failure(.noData))
-                return
-            }
-            completion(.success(data))
-            
-
-        }.resume()
+        print("Fetching from: ", request.url?.absoluteString ?? "")        
+        let (data, response) = try await URLSession.shared.data(for: request)
         
-    }
+        guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
+            throw APIError.custom("Invalid response")
+        }
     
+        return data
+    }
 }

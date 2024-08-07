@@ -8,7 +8,11 @@
 import Foundation
 
 
-struct WordResponse: Codable {
+struct WordResponse: Codable, Equatable {
+    static func == (lhs: WordResponse, rhs: WordResponse) -> Bool {
+        lhs.meta.id == rhs.meta.id
+    }
+    
     let meta: Meta
     let shortdef: [String]
     let partOfSpeech: String 
