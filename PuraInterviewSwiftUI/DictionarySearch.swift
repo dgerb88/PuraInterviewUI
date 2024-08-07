@@ -10,6 +10,7 @@ struct DictionarySearch: View {
     var memes = ["dosEquis", "mordor", "futurama", "simpsons", "yoda"]
     @State var meme = ""
     @State var apiError: String?
+    @State var threwError = false
     
     var body: some View {
         VStack {
@@ -47,6 +48,16 @@ struct DictionarySearch: View {
         .onChange(of: searchText) {
             isOffensive = false
         }
+        .alert("", isPresented: $threwError) {
+            Button {
+                threwError = false
+            } label: {
+                Text("Ok")
+            }
+        } message: {
+            Text(apiError ?? "")
+        }
+
     }
     
     func wordResponseSection(wordResponse: WordResponse) -> some View {
@@ -55,7 +66,6 @@ struct DictionarySearch: View {
                 .font(.title)
                 .fontWeight(.semibold)
                 .padding(.vertical)
-            
             if isDict {
                 definitionsSection(wordResponse: wordResponse)
             } else {
@@ -69,6 +79,33 @@ struct DictionarySearch: View {
         }.padding(.leading)
     }
 
+    func performSearchAndRespondInView() {
+        Task {
+            do {
+                wordResponse = try await viewModel.performSearch(query: searchText, isDict: isDict)
+                guard wordResponse != nil else { return }
+                isOffensive = wordResponse!.meta.offensive
+                meme = (isOffensive ? memes.randomElement() : "")!
+            } catch {
+                wordResponse = nil
+                threwError = true
+                switch error {
+                case APIError.badURL:
+                    apiError = "There was an error with the URL"
+                case APIError.noData:
+                    apiError = "No data was found for the search"
+                case APIError.emptyQuery:
+                    apiError = "Please type a word to begin search"
+                case APIError.tooShort:
+                    apiError = "The search must include at least 3 letters"
+                case APIError.serverError:
+                    apiError = "There was an error with the server, please try again later"
+                default:
+                    apiError = "An unknown error occurred"
+                }
+            }
+        }
+    }
     
     func definitionsSection(wordResponse: WordResponse) -> some View {
         VStack(alignment: .leading, spacing: 10) {
@@ -133,20 +170,6 @@ struct DictionarySearch: View {
             }
             .buttonStyle(.borderedProminent)
             .tint(isDict ? Color.puraTeal : Color.puraOrange)
-        }
-    }
-    
-    func performSearchAndRespondInView() {
-        Task {
-            do {
-                wordResponse = try await viewModel.performSearch(query: searchText, isDict: isDict)
-                guard wordResponse != nil else { return }
-                isOffensive = wordResponse!.meta.offensive
-                meme = (isOffensive ? memes.randomElement() : "")!
-            } catch {
-                wordResponse = nil
-                apiError = error.localizedDescription
-            }
         }
     }
     

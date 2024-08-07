@@ -10,8 +10,8 @@ import Foundation
 
 enum APIError: Error {
     case badURL
-    case custom(String)
     case noData
+    case serverError
     case emptyQuery
-    case tooShort(String)
+    case tooShort
 }

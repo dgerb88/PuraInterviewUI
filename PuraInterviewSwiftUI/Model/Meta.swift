@@ -14,3 +14,4 @@ struct Meta: Codable {
     let ants: [[String]]?
     let offensive: Bool
 }
+

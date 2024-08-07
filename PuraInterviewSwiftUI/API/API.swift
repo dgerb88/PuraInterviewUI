@@ -20,7 +20,7 @@ class API {
         }
         
         guard query.count > 2 else {
-            throw APIError.tooShort(query)
+            throw APIError.tooShort
         }
         
         var requestURL = URLBuilder(baseURL: API.dictUrl, word: query.lowercased()).requestURLDict
@@ -38,7 +38,7 @@ class API {
         let (data, response) = try await URLSession.shared.data(for: request)
         
         guard let httpResponse = response as? HTTPURLResponse, httpResponse.statusCode == 200 else {
-            throw APIError.custom("Invalid response")
+            throw APIError.serverError
         }
     
         return data

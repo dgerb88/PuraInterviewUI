@@ -13,5 +13,4 @@ struct Word: Codable {
     var definitions: [String]
     var synonyms: [String]?
     var antonyms: [String]?
-    
 }

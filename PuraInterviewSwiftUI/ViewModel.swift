@@ -6,9 +6,10 @@
 //
 
 import Foundation
+import AVFoundation
 
 class ViewModel: ObservableObject {
-    
+        
     func performSearch(query: String, isDict: Bool) async throws -> WordResponse? {
         if query == "Dax" {
             return WordResponse(meta: Meta(id: "Dax", syns: [["Hireable", "Competent", "Extremely good at working"]], ants: [["Ugly", "Not worth time", "Loser"]], offensive: false), shortdef: ["An extremely desirable candidate for a position at Pura"], partOfSpeech: "noun")
@@ -18,5 +19,5 @@ class ViewModel: ObservableObject {
             return response
         }
     }
-
+    
 }
