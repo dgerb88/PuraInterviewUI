@@ -1,0 +1,12 @@
+{
+  "images" : [
+    {
+      "filename" : "futurama.png",
+      "idiom" : "universal"
+    }
+  ],
+  "info" : {
+    "author" : "xcode",
+    "version" : 1
+  }
+}

@@ -6,60 +6,28 @@ struct DictionarySearch: View {
     @State var wordResponse: WordResponse?
     @State var isOffensive = false
     @State var isDict = true
+    var meme = ["dosEquis", "pikachu", "mordor", "futurama", "simpsons", "yoda"].randomElement()
     
     var body: some View {
         VStack {
             Picker("", selection: $isDict) {
-                Text("Dictionary").tag(true)
-                Text("Thesaurus").tag(false)
+                Text("Dictionary")
+                    .tag(true)
+                Text("Thesaurus")
+                    .tag(false)
             }
             .pickerStyle(.segmented)
+            .frame(height: 50)
+            .background(isDict ? Color.blue : Color.teal)
             ScrollView {
                 VStack(alignment: .leading, spacing: 10) {
-                    HStack {
-                        TextField("Search", text: $searchText)
-                            .textFieldStyle(.roundedBorder)
-                            .onSubmit {
-                                withAnimation(.easeIn) {
-                                    performSearchWithEasterEgg()
-                                }
-                            }
-                        Button {
-                            withAnimation(.easeIn) {
-                                performSearchWithEasterEgg()
-                            }
-                        } label: {
-                            Text("Search")
-                        }
-                        .buttonStyle(.borderedProminent)
-                        .tint(isDict ? .blue : .teal)
-                    }
+                    searchSection()
                     if let wordResponse {
-                        VStack(alignment: .leading, spacing: 10) {
-                            Text(wordResponse.partOfSpeech)
-                                .font(.title)
-                                .fontWeight(.semibold)
-                                .padding(.vertical)
-                            
-                            if isDict {
-                                definitions(wordResponse: wordResponse)
-                            } else {
-                                HStack(alignment: .top) {
-                                    synonyms(wordResponse: wordResponse)
-                                    Spacer()
-                                    antonyms(wordResponse: wordResponse)
-                                    Spacer()
-                                }
-                            }
-                        }.padding(.leading)
+                        wordResponseSection(wordResponse: wordResponse)
                     }
                     if isOffensive {
-                        Spacer()
-                        Image(.mouthCover)
-                            .resizable()
-                            .scaledToFit()
-                            .transition(.move(edge: .bottom).combined(with: .opacity))
-                        Text("This has been deemed offensive, shame on you")
+                        offensiveSection()
+                            .padding(.top)
                     }
                 }
                 .padding()
@@ -69,12 +37,37 @@ struct DictionarySearch: View {
         .animation(.easeInOut, value: isDict)
         .onChange(of: isDict) {
             if !searchText.isEmpty {
+                wordResponse = nil
                 performSearchWithEasterEgg()
             }
         }
+        .onChange(of: searchText) {
+            isOffensive = false
+        }
     }
     
-    func definitions(wordResponse: WordResponse) -> some View {
+    func wordResponseSection(wordResponse: WordResponse) -> some View {
+        VStack(alignment: .leading, spacing: 10) {
+            Text(wordResponse.partOfSpeech)
+                .font(.title)
+                .fontWeight(.semibold)
+                .padding(.vertical)
+            
+            if isDict {
+                definitionsSection(wordResponse: wordResponse)
+            } else {
+                HStack(alignment: .top) {
+                    synonyms(wordResponse: wordResponse)
+                    Spacer()
+                    antonyms(wordResponse: wordResponse)
+                    Spacer()
+                }
+            }
+        }.padding(.leading)
+    }
+
+    
+    func definitionsSection(wordResponse: WordResponse) -> some View {
         VStack(alignment: .leading, spacing: 10) {
             Text(wordResponse.word.definitions.count == 1 ? "Definition:" : "Definitions:")
                 .font(.title3)
@@ -107,6 +100,40 @@ struct DictionarySearch: View {
             ForEach(Array((wordResponse.word.antonyms ?? []).enumerated()), id: \.1.self) { index, antonym in
                 Text("\(index + 1). ") + Text(antonym.capitalizingFirstLetter())
             }
+        }
+    }
+    
+        
+    func offensiveSection() -> some View {
+        Group {
+            Image(meme!)
+                .resizable()
+                .scaledToFit()
+                .frame(maxHeight: 300)
+            Text("This has been deemed offensive, shame on you for searching for it")
+                
+        }
+        .transition(.move(edge: .bottom).combined(with: .opacity))
+    }
+    
+    func searchSection() -> some View {
+        HStack {
+            TextField("Search", text: $searchText)
+                .textFieldStyle(.roundedBorder)
+                .onSubmit {
+                    withAnimation(.easeIn) {
+                        performSearchWithEasterEgg()
+                    }
+                }
+            Button {
+                withAnimation(.easeIn) {
+                    performSearchWithEasterEgg()
+                }
+            } label: {
+                Text("Search")
+            }
+            .buttonStyle(.borderedProminent)
+            .tint(isDict ? .blue : .teal)
         }
     }
     
